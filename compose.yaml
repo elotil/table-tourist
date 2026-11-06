@@ -1,0 +1,9 @@
+services:
+  lucee:
+    image: lucee/lucee:latest
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./backend:/var/www
+      - ./database:/var/www/database
+      - ./app.config.json:/etc/app.config.json:ro

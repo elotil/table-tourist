@@ -1,0 +1,8 @@
+{
+    "default": "chinook",
+    "databases": {
+        "chinook": {
+            "path": "/var/www/database/Chinook_Sqlite.sqlite"
+        }
+    }
+}
