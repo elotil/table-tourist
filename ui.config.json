@@ -1,0 +1,12 @@
+{
+    "sidebar": {
+        "initialWidth": 240,
+        "minWidth": 100,
+        "maxWidth": 480
+    },
+    "details": {
+        "initialWidth": 300,
+        "minWidth": 200,
+        "maxWidth": 500
+    }
+}
