@@ -7,3 +7,22 @@ services:
       - ./backend:/var/www
       - ./database:/var/www/database
       - ./app.config.json:/etc/app.config.json:ro
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - lucee
+  frontend-dev:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: sh -c "npm ci && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "5173:5173"
+    depends_on:
+      - lucee

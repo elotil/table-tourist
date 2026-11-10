@@ -2,6 +2,7 @@
     "default": "chinook",
     "databases": {
         "chinook": {
+            "label": "Chinook",
             "path": "/var/www/database/Chinook_Sqlite.sqlite"
         }
     }

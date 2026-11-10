@@ -1,4 +1,5 @@
 import { useState, type PointerEvent as ReactPointerEvent } from "react"
+import DatabaseSelector from "./DatabaseSelector"
 
 function Sidebar({onWidthChange}: {onWidthChange:(width:number) => void}) {
   const [isDragging, setIsDragging] = useState(false)
@@ -13,9 +14,7 @@ function Sidebar({onWidthChange}: {onWidthChange:(width:number) => void}) {
   }
 
   return <aside id="sidebar">
-    <div id="database-selector">
-        Database
-    </div>
+    <DatabaseSelector />
     <nav id="table-list">
         Tables
     </nav>

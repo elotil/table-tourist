@@ -1,9 +1,30 @@
 component {
+    public struct function getDatasource() {
+        if (!structKeyExists(session, "currentDatabasse")) {
+            throw("No database selected for this session.");
+        }
+
+        var databaseId = session.currentDatabase;
+        if (!structKeyExists(application.appConfig.databases, databaseId)) {
+            throw("invalid database selected.");
+        }
+
+        var database = application.appConfig.databases[databaseId];
+        return {
+            class: "org.sqlite.JDBC",
+            bundleName: "org.xerial.sqlite-jdbc",
+            bundleVersion: "3.54.1.0",
+            connectionString: "jdbc:sqlite:" & database.path
+        };
+    }
+
     public array function executeQuery(required string sql, struct params = {}) {
+        var datasource = getDatasource();
+
         return queryExecute(
             arguments.sql,
             arguments.params,
-            { datasource: session.currentDatabase, returntype: "array" }
+            { datasource: datasource, returntype: "array" }
         );
     }
 
