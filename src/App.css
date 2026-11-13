@@ -3,6 +3,7 @@
 #sidebar {
   position: relative;
   height: 100%;
+  padding: 1rem;
 }
 
 #sidebar-resize-handle {
@@ -40,4 +41,45 @@
     minmax(0, 1fr)
     var(--details-width, 300px);
   height: 100%;
+}
+
+label[for="database-selector"] {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--colors-text);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+#database-selector {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0.65rem 2.5rem 0.65rem 0.85rem;
+  border: 1px solid var(--colors-divider);
+  border-radius: 0.65rem;
+  background-color: var(--colors-surface);
+  color: var(--colors-text);
+  font: inherit;
+  font-size: 1rem;
+  box-shadow: 0 1px 2px var(--colors-shadow);
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+#database-selector:hover:not(:disabled) {
+  border-color: var(--colors-divider-hover);
+}
+
+#database-selector:focus-visible {
+  border-color: var(--colors-divider-hover);
+  outline: 3px solid var(--colors-focus-ring);
+  outline-offset: 1px;
+}
+
+#database-selector:disabled {
+  background-color: var(--colors-surface-disabled);
+  color: var(--colors-text-disabled);
+  cursor: wait;
 }

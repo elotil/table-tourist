@@ -1,5 +1,6 @@
 import { useState, type PointerEvent as ReactPointerEvent } from "react"
 import DatabaseSelector from "./DatabaseSelector"
+import TableList from "./TableList"
 
 function Sidebar({onWidthChange}: {onWidthChange:(width:number) => void}) {
   const [isDragging, setIsDragging] = useState(false)
@@ -15,9 +16,7 @@ function Sidebar({onWidthChange}: {onWidthChange:(width:number) => void}) {
 
   return <aside id="sidebar">
     <DatabaseSelector />
-    <nav id="table-list">
-        Tables
-    </nav>
+    <TableList />
     <div id="sidebar-resize-handle" className={isDragging ? "is-dragging" : ""}
     onPointerDown={(event) => {
       setIsDragging(true)

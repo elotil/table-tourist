@@ -1,5 +1,12 @@
 :root {
+  --colors-surface: #fff;
+  --colors-text: #182230;
   --colors-divider: #6161616b;
+  --colors-divider-hover: #98a2b3;
+  --colors-focus-ring: rgb(59 130 246 / 22%);
+  --colors-shadow: rgb(16 24 40 / 8%);
+  --colors-surface-disabled: #f2f4f7;
+  --colors-text-disabled: #667085;
 }
 
 * {

@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react"
-import {type DatabaseList, fetchDatabases} from "../types/database"
+import {type DatabaseList, fetchDatabases, setCurrentDatabase} from "../types/database"
 
 function DatabaseSelector() {
     const [databaseList, setDatabaseList] = useState<DatabaseList|null>(null);
@@ -8,24 +8,26 @@ function DatabaseSelector() {
             fetchDatabases().then(setDatabaseList);
     }, []);
 
-    return <select
+    return <>
+    <label htmlFor="database-selector">
+        Database: 
+    </label>
+    <select
         id="database-selector"
         value={databaseList?.selected ?? ""}
         disabled={databaseList === null}
-        onChange={(event) => {
+        onChange={async (event) => {
             const databaseId = event.currentTarget.value;
-            setDatabaseList(current => 
-                current === null ? current : {...current, selected: databaseId}
-            );
-            console.log(databaseId);
-            // TODO pass to backend to update
-    }}>
-        {databaseList?.databases.map((database) => (
-            <option key={database.id} value={database.id}>
-                {database.label}
-            </option>
-        ))}
+            const updatedList = await setCurrentDatabase(databaseId);
+            setDatabaseList(updatedList);
+        }}>
+            {databaseList?.databases.map((database) => (
+                <option key={database.id} value={database.id}>
+                    {database.label}
+                </option>
+            ))}
     </select>
+    </>
 }
 
 export default DatabaseSelector
