@@ -10,9 +10,13 @@ function DatabaseSelector() {
 
     return <select
         id="database-selector"
-        value={databaseList?.selected}
+        value={databaseList?.selected ?? ""}
+        disabled={databaseList === null}
         onChange={(event) => {
             const databaseId = event.currentTarget.value;
+            setDatabaseList(current => 
+                current === null ? current : {...current, selected: databaseId}
+            );
             console.log(databaseId);
             // TODO pass to backend to update
     }}>

@@ -4,6 +4,10 @@
         "chinook": {
             "label": "Chinook",
             "path": "/var/www/database/Chinook_Sqlite.sqlite"
+        },
+        "northwind": {
+            "label": "Northwind",
+            "path": "/var/www/database/northwind.db"
         }
     }
 }
