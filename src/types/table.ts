@@ -1,3 +1,4 @@
-export type Table = {
-    name: string;
+export async function getTableList(): Promise<String[]> {
+  // TODO
+  return [];
 }

@@ -1,33 +1,37 @@
-import {useState, useEffect} from "react"
-import {type DatabaseList, fetchDatabases, setCurrentDatabase} from "../types/database"
+import { useState, useEffect, useContext } from "react"
+import * as Database from "../types/database"
+import { SelectionContext } from "../types/selection";
 
 function DatabaseSelector() {
-    const [databaseList, setDatabaseList] = useState<DatabaseList|null>(null);
+  const [databaseList, setDatabaseList] = useState<Database.DatabaseList | null>(null);
+  const selectionContext = useContext(SelectionContext);
 
-    useEffect(() => {
-            fetchDatabases().then(setDatabaseList);
-    }, []);
+  useEffect(() => {
+    Database.fetchDatabaseList().then(setDatabaseList);
+  }, []);
 
-    return <>
+  useEffect(() => {
+    if (databaseList !== null && !selectionContext.database.id) {
+      selectionContext.database.set(databaseList.default);
+    }
+  }, [databaseList, selectionContext.database]);
+
+  return <>
     <label htmlFor="database-selector">
-        Database: 
+      Database:
     </label>
     <select
-        id="database-selector"
-        value={databaseList?.selected ?? ""}
-        disabled={databaseList === null}
-        onChange={async (event) => {
-            const databaseId = event.currentTarget.value;
-            const updatedList = await setCurrentDatabase(databaseId);
-            setDatabaseList(updatedList);
-        }}>
-            {databaseList?.databases.map((database) => (
-                <option key={database.id} value={database.id}>
-                    {database.label}
-                </option>
-            ))}
+      id="database-selector"
+      value={selectionContext.database.id}
+      disabled={databaseList === null}
+      onChange={(event) => selectionContext.database.set(event.currentTarget.value)}>
+      {databaseList?.databases.map((database) => (
+        <option key={database.id} value={database.id}>
+          {database.label}
+        </option>
+      ))}
     </select>
-    </>
+  </>;
 }
 
 export default DatabaseSelector

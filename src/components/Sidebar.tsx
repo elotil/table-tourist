@@ -2,17 +2,8 @@ import { useState, type PointerEvent as ReactPointerEvent } from "react"
 import DatabaseSelector from "./DatabaseSelector"
 import TableList from "./TableList"
 
-function Sidebar({onWidthChange}: {onWidthChange:(width:number) => void}) {
+function Sidebar({onWidthChange}: {onWidthChange:(width:number) => void;}) {
   const [isDragging, setIsDragging] = useState(false)
-  function handlePointerMove(event: ReactPointerEvent<HTMLDivElement>) {
-    if (!event.currentTarget.hasPointerCapture(event.pointerId)) return;
-
-    const app = event.currentTarget.closest("#app");
-    if (!app) return;
-
-    const width = event.clientX - app.getBoundingClientRect().left;
-    onWidthChange(width);
-  }
 
   return <aside id="sidebar">
     <DatabaseSelector />
@@ -26,6 +17,17 @@ function Sidebar({onWidthChange}: {onWidthChange:(width:number) => void}) {
     onPointerUp={() => setIsDragging(false)}
     onLostPointerCapture={() => setIsDragging(false)} />
   </aside>;
+
+
+  function handlePointerMove(event: ReactPointerEvent<HTMLDivElement>) {
+    if (!event.currentTarget.hasPointerCapture(event.pointerId)) return;
+
+    const app = event.currentTarget.closest("#app");
+    if (!app) return;
+
+    const width = event.clientX - app.getBoundingClientRect().left;
+    onWidthChange(width);
+  }
 }
 
 export default Sidebar

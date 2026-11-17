@@ -1,14 +1,13 @@
 component {
-    public struct function getDatasource() {
-        if (!structKeyExists(session, "currentDatabasse")) {
-            throw("No database selected for this session.");
-        }
+    variables.id = "";
+    variables.datasource = "";
 
-        var databaseId = session.currentDatabase;
-        if (!structKeyExists(application.appConfig.databases, databaseId)) {
-            throw("invalid database selected.");
-        }
+    public Database function init(required string databaseId) {
+        variables.id = databaseId;
+        variables.datasource = getDatasource(databaseId);
+    }
 
+    private struct function getDatasource(required string databaseId) {
         var database = application.appConfig.databases[databaseId];
         return {
             class: "org.sqlite.JDBC",
@@ -18,18 +17,16 @@ component {
         };
     }
 
-    public array function executeQuery(required string sql, struct params = {}) {
-        var datasource = getDatasource();
-
+    private array function executeQuery(required string sql, struct params = {}) {
         return queryExecute(
             arguments.sql,
             arguments.params,
-            { datasource: datasource, returntype: "array" }
+            { datasource: variables.datasource, returntype: "array" }
         );
     }
 
     public array function getTables() {
-        var cacheKey = "tables:" & session.currentDatabase;
+        var cacheKey = "tables:" & variables.id;
         var tables = cacheGet(
             id = cacheKey,
             cacheName = session.cacheName
@@ -53,7 +50,7 @@ component {
     }
 
     public array function getColumns(required string table) {
-        var cacheKey = "columns:" & session.currentDatabase & ":" & arguments.table;
+        var cacheKey = "columns:" & variables.id & ":" & arguments.table;
         var columns = cacheGet(
             id = cacheKey,
             cacheName = session.cacheName

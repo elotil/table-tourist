@@ -8,6 +8,7 @@ services:
       - ./database:/var/www/database
       - ./app.config.json:/etc/app.config.json:ro
   frontend:
+    profiles: ["prod"]
     build:
       context: .
       dockerfile: Dockerfile.frontend

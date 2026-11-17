@@ -1,31 +1,8 @@
 <cfcontent type="application/json; charset=utf-8" reset="true">
 
 <cfscript>
-    if (cgi.REQUEST_METHOD == "POST") {
-        requestData = getHTTPRequestData();
-        data = deserializeJSON(charsetDecode(requestData.content, "utf-8"));
-
-        if (!isStruct(data) || !structKeyExists(data, "selected")) {
-            cfheader(statuscode=400, statustext="Bad Request");
-            writeOutput(serializeJSON({
-                error = "Selected database is required"
-            }));
-            abort;
-        }
-        
-        databaseId = toString(data.selected);
-        if (!structKeyExists(application.appConfig.databases, databaseId)) {
-            cfheader(statuscode=400, statustext="Bad Request");
-            writeOutput(serializeJSON({
-                error = "Unknown database"
-            }));
-            abort;
-        }
-
-        session.currentDatabase = databaseId;
-    }
-
-    if (!structKeyExists(session, "currentDatabase")) return;
+    if (!structKeyExists(application, "appConfig")) return;
+    if (!structKeyExists(application.appConfig, "databases")) return;
     databases = application.appConfig.databases;
     dblist = []
     for (databaseId in databases) {
@@ -34,9 +11,16 @@
             "label": databases[databaseId].label
         })
     }
+    default = "";
+    if (structKeyExists(application.appConfig, "default")
+    && structKeyExists(application.appConfig.databases, application.appConfig.default)) {
+        default = application.appConfig.default;
+    } else if (arrayLen(dblist) > 0) {
+        default = dblist[0];
+    }
 
     writeOutput(serializeJSON({
         "databases": dblist,
-        "selected": session.currentDatabase
+        "default": default
     }));
 </cfscript>
