@@ -9,7 +9,7 @@ export type DatabaseList = {
 };
 
 export type DatabaseSelection = {
-  id: string;
+  readonly id: string;
   set: (value: string) => void;
 };
 

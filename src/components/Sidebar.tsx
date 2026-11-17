@@ -7,6 +7,7 @@ function Sidebar({onWidthChange}: {onWidthChange:(width:number) => void;}) {
 
   return <aside id="sidebar">
     <DatabaseSelector />
+    <hr />
     <TableList />
     <div id="sidebar-resize-handle" className={isDragging ? "is-dragging" : ""}
     onPointerDown={(event) => {

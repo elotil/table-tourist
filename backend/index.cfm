@@ -1,27 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Table Tourist Backend</title>
-</head>
-<body>
-    <cfscript>
-        databaseId = session.currentDatabase;
+<cfcontent type="application/json; charset=utf-8" reset="true">
 
-        if (!structKeyExists(application.databases, databaseId)) {
-            throw(message="Unknown database selection");
-        }
+<cfscript>
+  param name="url.database" default="chinook";
+  databaseId = trim(url.database);
+  if (!len(databaseId) || !structKeyExists(application.appConfig.databases, databaseId)) {
+    header statuscode=400 statustext="Bad Request";
+    writeOutput(serializeJSON({
+      error="Invalid database ID"
+    }));
+    abort;
+  }
 
-        database = application.databases[databaseId];
+  database = new Database(databaseId);
+  tables = database.executeQuery("
+    SELECT name FROM pragma_table_list WHERE schema = 'main' AND type = 'table';
+  ");
 
-        ds = {
-            class: "org.sqlite.JDBC",
-            bundleName: "org.xerial.sqlite-jdbc",
-            bundleVersion: "3.54.1.0",
-            connectionString: "jdbc:sqlite:" & database.path
-        };
-
-        result = queryExecute("SELECT 1 AS ok", [], { datasource: ds });
-        writeOutput(result.ok[1]);
+  writeOutput(serializeJSON(tables));
 </cfscript>
-</body>
-</html>
