@@ -12,9 +12,11 @@
   }
 
   database = new Database(databaseId);
-  tables = database.executeQuery("
-    SELECT name FROM pragma_table_list WHERE schema = 'main' AND type = 'table';
+  result = database.executeQuery("
+    SELECT name
+    FROM pragma_table_list
+    WHERE schema = 'main' AND type = 'table' AND name NOT LIKE 'sqlite!_%' ESCAPE '!';
   ");
 
-  writeOutput(serializeJSON(tables));
+  writeOutput(serializeJSON(result));
 </cfscript>

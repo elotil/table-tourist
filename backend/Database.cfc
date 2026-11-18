@@ -37,8 +37,8 @@ component {
     }
         
     tables = executeQuery("
-      SELECT name FROM pragma_table_list WHERE schema = 'main' AND type = 'table';
-    ").map((row) => row.name);
+      SELECT name FROM pragma_table_list WHERE schema = 'main' AND type = 'table' AND name NOT LIKE 'sqlite!_%' ESCAPE '!';
+    ").map((row) => ({"name": row.name}));
 
     cachePut(
       id = cacheKey,

@@ -7,6 +7,7 @@ services:
       - ./backend:/var/www
       - ./database:/var/www/database
       - ./app.config.json:/etc/app.config.json:ro
+      - ./logs/lucee:/opt/lucee/server/lucee-server/context/logs
   frontend:
     profiles: ["prod"]
     build:

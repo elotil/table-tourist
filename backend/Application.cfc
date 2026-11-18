@@ -2,6 +2,7 @@ component {
     this.nullSupport = true;
     this.name = "Table Tourist";
     this.sessionManagement = true;
+    this.serialization.preserveCaseForStructKey = true;
 
     this.cache.connections["templatecache"] = {
         class: "lucee.runtime.cache.ram.RamCache",

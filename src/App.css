@@ -89,3 +89,49 @@ hr {
   color: var(--colors-text-disabled);
   cursor: wait;
 }
+
+#table-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#table-list > li {
+  margin: 0;
+  padding: 0;
+}
+
+.table-list-item {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.5rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.table-list-item,
+#sidebar label {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.table-list-item:hover {
+  background: var(--colors-surface);
+}
+
+.table-list-item:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
+.table-list-item[aria-current="true"] {
+  background: var(--colors-shadow);
+  font-weight: 600;
+}

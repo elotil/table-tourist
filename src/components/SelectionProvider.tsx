@@ -3,6 +3,7 @@ import { SelectionContext } from "../types/selection";
 
 function SelectionProvider({ children }: { children: ReactNode }) {
   const [databaseId, setDatabaseId] = useState(new URLSearchParams(window.location.search).get("database") ?? "");
+  const [tableName, setTableName] = useState("");
   
   return <SelectionContext.Provider value={{
     database: {
@@ -14,6 +15,10 @@ function SelectionProvider({ children }: { children: ReactNode }) {
         url.searchParams.set("database", value);
         window.history.replaceState(null, "", url.toString());
       }
+    },
+    table: {
+      name: tableName,
+      set: setTableName
     }
   }}>
     {children}
