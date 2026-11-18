@@ -3,16 +3,16 @@ import DatabaseSelector from "./DatabaseSelector"
 import TableList from "./TableList"
 
 function Sidebar({onWidthChange}: {onWidthChange:(width:number) => void;}) {
-  const [isDragging, setIsDragging] = useState(false)
+  const [isDragging, setIsDragging] = useState(false);
 
   return <aside id="sidebar">
     <DatabaseSelector />
     <hr />
     <TableList />
-    <div id="sidebar-resize-handle" className={isDragging ? "is-dragging" : ""}
+    <div id="sidebar-resize-handle" className={isDragging ? "is-dragging" : undefined}
     onPointerDown={(event) => {
-      setIsDragging(true)
-      event.currentTarget.setPointerCapture(event.pointerId)
+      setIsDragging(true);
+      event.currentTarget.setPointerCapture(event.pointerId);
     }}
     onPointerMove={handlePointerMove}
     onPointerUp={() => setIsDragging(false)}

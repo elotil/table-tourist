@@ -1,22 +1,31 @@
 @import "index.css";
 
-#sidebar {
+#sidebar, #details {
   position: relative;
   height: 100%;
   padding: 1rem;
 }
 
-#sidebar-resize-handle {
+#sidebar-resize-handle,
+#details-resize-handle {
   position: absolute;
   top: 0;
-  right: -4px;
   bottom: 0;
   width: 8px;
   cursor: col-resize;
   touch-action: none;
 }
 
-#sidebar-resize-handle::after {
+#sidebar-resize-handle {
+  right: -4px;
+}
+
+#details-resize-handle {
+  left: -4px;
+}
+
+#sidebar-resize-handle::after,
+#details-resize-handle::before {
   content: "";
   position: absolute;
   top: 0;
@@ -30,7 +39,10 @@
 
 #sidebar-resize-handle:hover::after,
 #sidebar-resize-handle:focus-visible::after,
-#sidebar-resize-handle.is-dragging::after {
+#sidebar-resize-handle.is-dragging::after,
+#details-resize-handle:hover::before,
+#details-resize-handle:focus-visible::before,
+#details-resize-handle.is-dragging::before {
   width: 4px;
 }
 
