@@ -7,6 +7,10 @@ export type TableSelection = {
   set: (value: string) => void;
 }
 
+export type TableDetails = {
+  kind: "table";
+};
+
 export async function fetchTableList(databaseId: string): Promise<Table[]> {
   const params = new URLSearchParams({database: databaseId});
   const response = await fetch(`/api/tables.cfm?${params}`);

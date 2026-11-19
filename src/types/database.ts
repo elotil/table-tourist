@@ -1,11 +1,11 @@
 export type Database = {
-    id: string;
-    label: string;
+  id: string;
+  label: string;
 };
 
 export type DatabaseList = {
-    databases: Database[];
-    default: string;
+  databases: Database[];
+  default: string;
 };
 
 export type DatabaseSelection = {
@@ -13,12 +13,22 @@ export type DatabaseSelection = {
   set: (value: string) => void;
 };
 
+export type DatabaseDetails = {
+  kind: "database";
+  label: string;
+  counts: {
+    table: number;
+    view: number;
+    virtual: number;
+  };
+};
+
 export async function fetchDatabaseList(): Promise<DatabaseList> {
-    const response = await fetch("/api/databases.cfm");
+  const response = await fetch("/api/databases.cfm");
 
-    if (!response.ok) {
-        throw(`Request failed: ${response.status}`);
-    }
+  if (!response.ok) {
+    throw (`Request failed: ${response.status}`);
+  }
 
-    return response.json();
+  return response.json();
 }

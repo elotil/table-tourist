@@ -12,11 +12,7 @@
   }
 
   database = new Database(databaseId);
-  result = database.executeQuery("
-    SELECT name
-    FROM pragma_table_list
-    WHERE schema = 'main' AND type = 'table' AND name NOT LIKE 'sqlite!_%' ESCAPE '!';
-  ");
+  result = database.getCounts();
 
   writeOutput(serializeJSON(result));
 </cfscript>

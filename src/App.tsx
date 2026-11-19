@@ -1,7 +1,7 @@
 import { useState, type CSSProperties } from "react"
 import SelectionProvider from "./components/SelectionProvider"
 import Sidebar from "./components/Sidebar"
-import Details from "./components/Details"
+import DetailsPane from "./components/DetailsPane"
 import uiConfig from "../ui.config.json"
 import "./App.css"
 
@@ -21,7 +21,7 @@ function App() {
           ))
         } />
         <div id="workspace"></div>
-        <Details onWidthChange={(width: number) =>
+        <DetailsPane onWidthChange={(width: number) =>
           setDetailsWidth(Math.max(uiConfig.details.minWidth,
             Math.min(uiConfig.sidebar.maxWidth, width)
           ))

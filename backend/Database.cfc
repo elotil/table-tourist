@@ -29,7 +29,7 @@ component {
     var cacheKey = "tables:" & variables.id;
     var tables = cacheGet(
       id = cacheKey,
-      cacheName = session.cacheName
+      cacheName = application.cacheName
     );
 
     if (!isNull(tables)) {
@@ -37,13 +37,13 @@ component {
     }
         
     tables = executeQuery("
-      SELECT name FROM pragma_table_list WHERE schema = 'main' AND type = 'table' AND name NOT LIKE 'sqlite!_%' ESCAPE '!';
+      SELECT name FROM pragma_table_list WHERE schema = 'main' AND type = 'table' AND name NOT GLOB 'sqlite_*';
     ").map((row) => ({"name": row.name}));
 
     cachePut(
       id = cacheKey,
       value = tables,
-      cacheName = session.cacheName
+      cacheName = application.cacheName
     );
 
     return tables;
@@ -53,7 +53,7 @@ component {
     var cacheKey = "columns:" & variables.id & ":" & arguments.table;
     var columns = cacheGet(
       id = cacheKey,
-      cacheName = session.cacheName
+      cacheName = application.cacheName
     );
 
     if (!isNull(columns)) {
@@ -67,7 +67,7 @@ component {
     cachePut(
       id = cacheKey,
       value = columns,
-      cacheName = session.cacheName
+      cacheName = application.cacheName
     );
 
     return columns;
@@ -91,5 +91,43 @@ component {
       }
       rethrow;
     }
+  }
+
+  public struct function getCounts() {
+    var cacheKey = "counts:" & variables.id;
+    var counts = cacheGet(
+      id = cachekey,
+      cacheName = application.cacheName
+    )
+
+    if (!isNull(counts)) {
+      return counts;
+    }
+
+    counts = {
+      "table": 0,
+      "view": 0,
+      "virtual": 0
+    };
+    result = executeQuery("
+      SELECT type, COUNT(*) as count
+      FROM pragma_table_list
+      WHERE schema = 'main' AND name NOT GLOB 'sqlite_*'
+      GROUP BY type;
+    ");
+
+    for (row in result) {
+      if (structKeyExists(counts, row.type)) {
+        counts[row.type] = row.count;
+      }
+    }
+
+    cachePut(
+      id = cacheKey,
+      value = counts,
+      cacheName = application.cacheName
+    );
+
+    return counts;
   }
 }

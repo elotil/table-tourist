@@ -8,7 +8,9 @@ function TableList() {
   const [tableList, setTableList] = useState<Table[]>([]);
 
   useEffect(() => {
-    fetchTableList(databaseId).then(setTableList);
+    if (databaseId) {
+      fetchTableList(databaseId).then(setTableList);
+    }
   }, [databaseId]);
 
   return <nav>

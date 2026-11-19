@@ -7,7 +7,8 @@ component {
     this.cache.connections["templatecache"] = {
         class: "lucee.runtime.cache.ram.RamCache",
         storage: false,
-        custom: { timeToIdleSeconds: 3600, timeToLiveSeconds: 3600 },
+        // TODO adjust cache timeout for prod
+        custom: { timeToIdleSeconds: 10, timeToLiveSeconds: 10 },
         default: 'object'
     };
 
@@ -15,12 +16,7 @@ component {
         application.appConfig = deserializeJSON(
             fileRead("/etc/app.config.json")
         );
+        application.cacheName = "templatecache";
         return true;
-    }
-
-    public function onSessionStart() {
-        session.cacheName = "templatecache";
-
-        // TODO: create an independent working copy for this session
     }
 }
