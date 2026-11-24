@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar"
 import DetailsPane from "./components/DetailsPane"
 import uiConfig from "../ui.config.json"
 import "./App.css"
+import Workspace from "./components/Workspace"
 
 function App() {
   const [sidebarWidth, setSidebarWidth] = useState(uiConfig.sidebar.initialWidth);
@@ -20,7 +21,7 @@ function App() {
             Math.min(uiConfig.sidebar.maxWidth, width)
           ))
         } />
-        <div id="workspace"></div>
+        <Workspace />
         <DetailsPane onWidthChange={(width: number) =>
           setDetailsWidth(Math.max(uiConfig.details.minWidth,
             Math.min(uiConfig.sidebar.maxWidth, width)

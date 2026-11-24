@@ -9,7 +9,7 @@ function SelectionProvider({ children }: { children: ReactNode }) {
     database: {
       id: databaseId,
       set: (value: string) => {
-        // TODO validate id first
+        if (value === databaseId) return;
         setDatabaseId(value);
         setTableName("");
         const url = new URL(window.location.href);
