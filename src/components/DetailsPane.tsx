@@ -47,10 +47,10 @@ function DatabaseDetailsPane({ details }: { details: DatabaseDetails }) {
   return <div id="details-data">
     <label>{details.label}</label>
     <p>Data version: {details.data_version}</p>
-    <p>Tables: {details.counts.table}</p>
-    <p>Views: {details.counts.view}</p>
-    <p>Virtual tables: {details.counts.virtual}</p>
-    <p>Shadow tables: {details.counts.shadow}</p>
+    <p>Tables: {details.table}</p>
+    <p>Views: {details.view}</p>
+    <p>Virtual tables: {details.virtual}</p>
+    <p>Shadow tables: {details.shadow}</p>
   </div>
 }
 

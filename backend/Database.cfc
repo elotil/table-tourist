@@ -93,22 +93,23 @@ component {
     }
   }
 
-  public struct function getCounts() {
-    var cacheKey = "counts:" & variables.id;
-    var counts = cacheGet(
+  public struct function getDatabaseInfo() {
+    var cacheKey = "info:" & variables.id;
+    var info = cacheGet(
       id = cachekey,
       cacheName = application.cacheName
-    )
+    );
 
-    if (!isNull(counts)) {
-      return counts;
+    if (!isNull(info)) {
+      return info;
     }
 
-    counts = {
+    info = {
       "table": 0,
       "view": 0,
       "virtual": 0,
-      "shadow": 0
+      "shadow": 0,
+      "data_version": 0
     };
     result = executeQuery("
       SELECT type, COUNT(*) as count
@@ -118,29 +119,49 @@ component {
     ");
 
     for (row in result) {
-      if (structKeyExists(counts, row.type)) {
-        counts[row.type] = row.count;
+      if (structKeyExists(info, row.type)) {
+        info[row.type] = row.count;
       }
+    }
+    
+    result = executeQuery("PRAGMA data_version");
+    if (result.len() > 0 && structKeyExists(result[1], "data_version")) {
+      info["data_version"] = result[1].data_version;
     }
 
     cachePut(
       id = cacheKey,
-      value = counts,
+      value = info,
       cacheName = application.cacheName
     );
 
-    return counts;
-  }
-  
-  public numeric function getDataVersion() {
-    result = executeQuery("PRAGMA data_version");
-    return result[1].data_version;
+    return info;
   }
   
   public any function getTableInfo(required string table) {
+    var cacheKey = "info:" & variables.id & ":" & arguments.table;
+    var info = cacheGet(
+      id = cacheKey,
+      cacheName = application.cacheName
+    );
+    
+    if (!isNull(info)) {
+      return info;
+    }
+    
     result = executeQuery("SELECT * FROM pragma_table_list(:table)",
       { table=arguments.table }
     );
-    return result[1];
+    if (result.len() > 0) {
+      info = result[1];
+    }
+    
+    cachePut(
+      id = cacheKey,
+      value = info,
+      cacheName = application.cacheName
+    );
+    
+    return info;
   }
 }

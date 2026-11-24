@@ -17,12 +17,10 @@ export type DatabaseDetails = {
   kind: "database";
   label: string;
   data_version: number;
-  counts: {
-    table: number;
-    view: number;
-    virtual: number;
-    shadow: number;
-  };
+  table: number;
+  view: number;
+  virtual: number;
+  shadow: number;
 };
 
 export async function fetchDatabaseList(): Promise<DatabaseList> {

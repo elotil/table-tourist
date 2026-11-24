@@ -5,10 +5,7 @@
   param name="url.table" default="";
   param name="url.record" default="";
   databaseId = trim(url.database);
-  if (!len(databaseId)) {
-    abort;
-  }
-  if (!structKeyExists(application.appConfig.databases, databaseId)) {
+  if (!len(databaseId) || !structKeyExists(application.appConfig.databases, databaseId)) {
     header statuscode=400 statustext="Bad Request";
     writeOutput(serializeJSON({
       error="Invalid database ID"
@@ -33,10 +30,9 @@
   } else {
     result = {
       "kind": "database",
-      "label": application.appConfig.databases[databaseId].label,
-      "data_version": database.getDataVersion(),
-      "counts": database.getCounts()
+      "label": application.appConfig.databases[databaseId].label
     };
+    structAppend(result, database.getDatabaseInfo());
   }
 
   writeOutput(serializeJSON(result));
