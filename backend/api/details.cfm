@@ -21,14 +21,20 @@
   if (len(trim(url.record))) {
     // TODO write record details
   } else if (len(trim(url.table))) {
-    // TODO
+    table = trim(url.table);
+    data = database.getTableInfo(table);
     result = {
-      "kind": "table"
+      "kind": "table",
+      "name": data.name,
+      "columns": data.ncol,
+      "without_rowid": data.wr,
+      "strict": data.strict
     };
   } else {
     result = {
       "kind": "database",
       "label": application.appConfig.databases[databaseId].label,
+      "data_version": database.getDataVersion(),
       "counts": database.getCounts()
     };
   }

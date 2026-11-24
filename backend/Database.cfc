@@ -107,7 +107,8 @@ component {
     counts = {
       "table": 0,
       "view": 0,
-      "virtual": 0
+      "virtual": 0,
+      "shadow": 0
     };
     result = executeQuery("
       SELECT type, COUNT(*) as count
@@ -129,5 +130,17 @@ component {
     );
 
     return counts;
+  }
+  
+  public numeric function getDataVersion() {
+    result = executeQuery("PRAGMA data_version");
+    return result[1].data_version;
+  }
+  
+  public any function getTableInfo(required string table) {
+    result = executeQuery("SELECT * FROM pragma_table_list(:table)",
+      { table=arguments.table }
+    );
+    return result[1];
   }
 }

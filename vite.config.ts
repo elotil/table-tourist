@@ -9,5 +9,9 @@ export default defineConfig({
     proxy: {
       "/api": "http://lucee:8888",
     },
+    watch: {
+      usePolling: true,
+      interval: 1000,
+    },
   },
 })

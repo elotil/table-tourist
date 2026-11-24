@@ -1,6 +1,7 @@
 @import "index.css";
 
-#sidebar, #details {
+#sidebar,
+#details {
   position: relative;
   height: 100%;
   padding: 1rem;
@@ -49,9 +50,7 @@
 #app {
   display: grid;
   grid-template-columns:
-    var(--sidebar-width, 240px)
-    minmax(0, 1fr)
-    var(--details-width, 300px);
+    var(--sidebar-width, 240px) minmax(0, 1fr) var(--details-width, 300px);
   height: 100%;
 }
 
@@ -108,7 +107,7 @@ hr {
   padding: 0;
 }
 
-#table-list > li {
+#table-list>li {
   margin: 0;
   padding: 0;
 }
@@ -126,7 +125,9 @@ hr {
 }
 
 .table-list-item,
-#sidebar label {
+#sidebar label,
+#details label,
+#details p {
   display: block;
   min-width: 0;
   overflow: hidden;
@@ -146,4 +147,11 @@ hr {
 .table-list-item[aria-current="true"] {
   background: var(--colors-shadow);
   font-weight: 600;
+}
+
+#details-data>p {
+  box-sizing: border-box;
+  font-size: 0.9em;
+  padding: 0 0.5rem;
+  border: 0;
 }

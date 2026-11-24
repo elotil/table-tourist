@@ -16,10 +16,12 @@ export type DatabaseSelection = {
 export type DatabaseDetails = {
   kind: "database";
   label: string;
+  data_version: number;
   counts: {
     table: number;
     view: number;
     virtual: number;
+    shadow: number;
   };
 };
 
