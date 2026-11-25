@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
-import type { Table } from "../types/table";
+import { useContext, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { type Table } from "../types/table";
 import type { Position } from "../types/util";
+import { type Column, fetchColumnList } from "../types/column";
+import { SelectionContext } from "../types/selection";
 
 function DiagramNode({ table, position, registerDiv, onPositionChange }: {
   table: Table,
@@ -10,10 +12,18 @@ function DiagramNode({ table, position, registerDiv, onPositionChange }: {
 }) {
   const [isDragging, setIsDragging] = useState(false);
   const dragOffset = useRef<Position>({ x: 0, y: 0 });
+  const selection = useContext(SelectionContext);
+  const [columnList, setColumnList] = useState<Column[]>([]);
+
+  useEffect(() => {
+    if (selection.database.id) {
+      fetchColumnList(selection.database.id, table.name).then(setColumnList);
+    }
+  }, [selection.database.id, table.name]);
 
   return <div className="diagram-node" ref={(div) => (registerDiv(table.name, div))}
     style={{ left: position.x, top: position.y }}>
-    <div className={"node-resize-handle" + (isDragging ? " is-dragging" : "")}
+    <div className={"node-drag-handle" + (isDragging ? " is-dragging" : "")}
       onPointerDown={(event) => {
         setIsDragging(true);
         event.currentTarget.setPointerCapture(event.pointerId);
@@ -25,6 +35,12 @@ function DiagramNode({ table, position, registerDiv, onPositionChange }: {
       onPointerUp={() => {
         setIsDragging(false);
       }}>{table.name}</div>
+    <hr />
+    <ol className="column-list">
+      {columnList.map((column) => (
+        <li>{column.name}</li>
+      ))}
+    </ol>
   </div>;
 
   function handlePointerMove(event: ReactPointerEvent<HTMLDivElement>) {

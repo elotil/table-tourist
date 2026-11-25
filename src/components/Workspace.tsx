@@ -13,7 +13,6 @@ function Workspace() {
   const divMap = useRef(new Map<string, HTMLDivElement>());
   const [divPositions, setDivPositions] = useState(new Map<string, Position>());
 
-
   const registerDiv = useCallback((key: string, div: HTMLDivElement | null) => {
     if (div) divMap.current.set(key, div);
     else divMap.current.delete(key);
@@ -31,7 +30,7 @@ function Workspace() {
 
   return <div id="workspace" ref={ref}>
     <Canvas>
-      {tableList.map((table, index) => (
+      {tableList.map((table) => (
         <DiagramNode
           key={table.name}
           table={table}

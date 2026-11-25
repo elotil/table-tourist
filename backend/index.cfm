@@ -12,7 +12,7 @@
   }
 
   database = new Database(databaseId);
-  result = database.getDatabaseInfo();
+  result = database.getColumns("Track");
 
   writeOutput(serializeJSON(result));
 </cfscript>

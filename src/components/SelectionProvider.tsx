@@ -19,7 +19,10 @@ function SelectionProvider({ children }: { children: ReactNode }) {
     },
     table: {
       name: tableName,
-      set: setTableName
+      set: (value: string) => {
+        if (value === tableName) return;
+        setTableName(value);
+      }
     }
   }}>
     {children}

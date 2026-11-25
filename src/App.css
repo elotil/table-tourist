@@ -59,7 +59,7 @@ label {
   margin: 0.5rem;
   color: var(--colors-text);
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: bold;
   line-height: 1.4;
 }
 
@@ -181,11 +181,26 @@ hr {
   background: var(--colors-surface);
   color: var(--colors-text);
   box-shadow: 0 2px 4px var(--colors-shadow);
+}
+
+.node-drag-handle {
+  padding: 1rem;
+  font-weight: bold;
   cursor: grab;
   user-select: none;
   touch-action: none;
 }
 
-.node-resize-handle {
-  padding: 1rem;
+.diagram-node hr {
+  margin: 0 0 0.5rem 0;
+}
+
+.column-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.column-list>li {
+  padding: 0 0 0.5rem 0.5rem;
 }
